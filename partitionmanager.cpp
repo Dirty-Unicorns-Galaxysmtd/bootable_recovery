@@ -37,13 +37,16 @@
 #include "fixPermissions.hpp"
 #include "twrpDigest.hpp"
 
+extern "C" {
+	#include "cutils/properties.h"
+}
+
 #ifdef TW_INCLUDE_CRYPTO
 	#ifdef TW_INCLUDE_JB_CRYPTO
 		#include "crypto/jb/cryptfs.h"
 	#else
 		#include "crypto/ics/cryptfs.h"
 	#endif
-	#include "cutils/properties.h"
 #endif
 
 int TWPartitionManager::Process_Fstab(string Fstab_Filename, bool Display_Error) {
