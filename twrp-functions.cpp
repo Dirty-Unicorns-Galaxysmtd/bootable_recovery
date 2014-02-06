@@ -586,13 +586,21 @@ bool TWFunc::Fix_su_Perms(void) {
 	if (!PartitionManager.Mount_By_Path("/system", true))
 		return false;
 
+	string propvalue = System_Property_Get("ro.build.version.sdk");
+	string su_perms = "6755";
+	if (!propvalue.empty()) {
+		int sdk_version = atoi(propvalue.c_str());
+		if (sdk_version >= 18)
+			su_perms = "0755";
+	}
+
 	string file = "/system/bin/su";
 	if (TWFunc::Path_Exists(file)) {
 		if (chown(file.c_str(), 0, 0) != 0) {
 			LOGERR("Failed to chown '%s'\n", file.c_str());
 			return false;
 		}
-		if (tw_chmod(file, "6755") != 0) {
+		if (tw_chmod(file, su_perms) != 0) {
 			LOGERR("Failed to chmod '%s'\n", file.c_str());
 			return false;
 		}
@@ -603,7 +611,7 @@ bool TWFunc::Fix_su_Perms(void) {
 			LOGERR("Failed to chown '%s'\n", file.c_str());
 			return false;
 		}
-		if (tw_chmod(file, "6755") != 0) {
+		if (tw_chmod(file, su_perms) != 0) {
 			LOGERR("Failed to chmod '%s'\n", file.c_str());
 			return false;
 		}
@@ -614,7 +622,7 @@ bool TWFunc::Fix_su_Perms(void) {
 			LOGERR("Failed to chown '%s'\n", file.c_str());
 			return false;
 		}
-		if (tw_chmod(file, "6755") != 0) {
+		if (tw_chmod(file, "0755") != 0) {
 			LOGERR("Failed to chmod '%s'\n", file.c_str());
 			return false;
 		}
@@ -625,7 +633,7 @@ bool TWFunc::Fix_su_Perms(void) {
 			LOGERR("Failed to chown '%s'\n", file.c_str());
 			return false;
 		}
-		if (tw_chmod(file, "6755") != 0) {
+		if (tw_chmod(file, su_perms) != 0) {
 			LOGERR("Failed to chmod '%s'\n", file.c_str());
 			return false;
 		}
