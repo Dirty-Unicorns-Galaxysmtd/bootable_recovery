@@ -224,8 +224,8 @@ int fixPermissions::fixSystemApps() {
 	temp = head;
 	while (temp != NULL) {
 		if (TWFunc::Path_Exists(temp->codePath)) {
-			if (temp->appDir.compare("/system/app") == 0) {
-				if (debug)  {
+			if (temp->appDir.compare("/system/app") == 0 || temp->appDir.compare("/system/priv-app") == 0) {
+				if (debug)	{
 					LOGINFO("Looking at '%s'\n", temp->codePath.c_str());
 					LOGINFO("Fixing permissions on '%s'\n", temp->pkgName.c_str());
 					LOGINFO("Directory: '%s'\n", temp->appDir.c_str());
